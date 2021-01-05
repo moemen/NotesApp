@@ -1,18 +1,9 @@
 import React from 'react';
 
-import {Container, Text, Header, Content} from 'native-base';
-
-declare const global: {HermesInternal: null | {}};
+import ListNotes from './screens/ListNotes';
 
 const App = () => {
-  return (
-    <Container>
-      <Header />
-      <Content padder>
-        <Text>Hello world</Text>
-      </Content>
-    </Container>
-  );
+  return <ListNotes />;
 };
 
 export default App;
