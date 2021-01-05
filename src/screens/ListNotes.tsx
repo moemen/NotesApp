@@ -2,6 +2,11 @@ import React from 'react';
 import Layout from '../components/layout/Layout';
 import NotesList from '../components/notes-list/NotesList';
 import Note from '../models/Note';
+import {HomeScreenNavigationProp} from '../navigation/root-navigator';
+
+type Props = {
+  navigation: HomeScreenNavigationProp;
+};
 
 const notes: Array<Note> = [
   new Note(
@@ -20,8 +25,8 @@ sunt in culpa qui officia deserunt mollit anim id est laborum.
   ),
 ];
 
-export default () => (
-  <Layout>
-    <NotesList notes={notes} />
+export default ({navigation}: Props) => (
+  <Layout screenName="Home">
+    <NotesList notes={notes} navigation={navigation} />
   </Layout>
 );
