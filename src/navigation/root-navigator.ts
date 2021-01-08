@@ -1,10 +1,9 @@
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {createStackNavigator} from '@react-navigation/stack';
-import Note from '../models/Note';
 
 type RootStackParamList = {
-  Note: {note: Note};
+  Note: undefined;
   Home: undefined;
 };
 

@@ -8,12 +8,14 @@ import {
   Body,
   Title,
   Left,
+  Footer,
 } from 'native-base';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {HomeScreenNavigationProp} from '../../navigation/root-navigator';
 import {useNavigation} from '@react-navigation/native';
 
 interface Prop {
+  footer?: ReactNode;
   screenName: string;
   children: ReactNode;
 }
@@ -35,6 +37,7 @@ export default (props: Prop) => {
       <KeyboardAwareScrollView>
         <Content padder>{props.children}</Content>
       </KeyboardAwareScrollView>
+      {props.footer ? <Footer>{props.footer}</Footer> : undefined}
     </Container>
   );
 };

@@ -1,36 +1,36 @@
 import React from 'react';
 
 import {Text, Card, CardItem, Body} from 'native-base';
-import Note from '../../models/Note';
 import {Pressable} from 'react-native';
-import {HomeScreenNavigationProp} from '../../navigation/root-navigator';
+import {Note} from '../../models/note-model';
+import {useNoteStore} from '../../context/notes-context';
+import {observer} from 'mobx-react-lite';
+import {useNavigation} from '@react-navigation/native';
 
-interface Props {
-  notes: Array<Note>;
-  navigation: HomeScreenNavigationProp;
-}
-
-export default ({notes, navigation}: Props) => (
-  <>
-    {notes.map((note: Note) => (
-      <Pressable
-        onPress={() => navigation.navigate('Note', {note})}
-        key={note.id}>
-        <Card>
-          <CardItem header>
-            <Text>{note.title}</Text>
-          </CardItem>
-          <CardItem>
-            <Body>
-              <Text>
-                {note.body.length > 300
-                  ? note.body.substring(0, 300) + '...'
-                  : note.body}
-              </Text>
-            </Body>
-          </CardItem>
-        </Card>
-      </Pressable>
-    ))}
-  </>
-);
+export default observer(() => {
+  const {notes, selectNote} = useNoteStore();
+  const navigation = useNavigation();
+  return (
+    <>
+      {notes.map((note: Note) => (
+        <Pressable
+          onPress={() => {
+            selectNote(note);
+            return navigation.navigate('Note');
+          }}
+          key={note.id}>
+          <Card>
+            <CardItem header>
+              <Text>{note.title}</Text>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <Text>{note.bodyPreview}</Text>
+              </Body>
+            </CardItem>
+          </Card>
+        </Pressable>
+      ))}
+    </>
+  );
+});
