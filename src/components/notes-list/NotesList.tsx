@@ -2,10 +2,11 @@ import React from 'react';
 
 import {Text, Card, CardItem, Body} from 'native-base';
 import {Pressable} from 'react-native';
-import {Note} from '../../models/note-model';
-import {useNoteStore} from '../../context/notes-context';
 import {observer} from 'mobx-react-lite';
 import {useNavigation} from '@react-navigation/native';
+import {clone} from 'mobx-state-tree';
+import {Note} from '../../models/note-model';
+import {useNoteStore} from '../../context/notes-context';
 
 export default observer(() => {
   const {notes, selectNote} = useNoteStore();
@@ -15,7 +16,7 @@ export default observer(() => {
       {notes.map((note: Note) => (
         <Pressable
           onPress={() => {
-            selectNote(note);
+            selectNote(clone(note));
             return navigation.navigate('Note');
           }}
           key={note.id}>

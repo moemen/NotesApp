@@ -4,12 +4,9 @@ import {NoteStore, NoteStoreModel} from '../models/note-store';
 
 const STORAGE_KEY = 'notes_app';
 
-const welcome_note = [
-  {
-    title: 'Welcome to the notes app',
-    body: 'Simple but yet powerful application',
-  },
-];
+const welcome_note = {
+  notes: [],
+};
 
 export const setupStore = async () => {
   let noteStore: NoteStore;

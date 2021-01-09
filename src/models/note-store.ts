@@ -1,4 +1,11 @@
-import {Instance, SnapshotOut, types, destroy} from 'mobx-state-tree';
+import {
+  Instance,
+  SnapshotOut,
+  types,
+  applySnapshot,
+  clone,
+  destroy,
+} from 'mobx-state-tree';
 import {v4 as uuidv4} from 'uuid';
 import {NoteModel, Note} from './note-model';
 
@@ -6,16 +13,25 @@ export const NoteStoreModel = types
   .model('NoteStore')
   .props({
     notes: types.optional(types.array(NoteModel), []),
-    selectedNote: types.maybeNull(types.reference(NoteModel)),
+    selectedNote: types.maybeNull(NoteModel),
   })
   .actions((self) => ({
-    newNote: () => {
-      const blankNote = NoteModel.create({id: uuidv4()});
-      self.notes.push(blankNote);
-      self.selectedNote = blankNote;
+    newNote: (): Note => {
+      return NoteModel.create({id: uuidv4(), title: '', body: ''});
     },
-    deleteNote: (note: Note) => {
-      destroy(note);
+    saveNote: (note: Note) => {
+      const noteIndex = self.notes.map((n: Note) => n.id).indexOf(note.id);
+      if (noteIndex >= 0) {
+        applySnapshot(self.notes[noteIndex], note);
+      } else {
+        self.notes.push(clone(note));
+      }
+    },
+    deleteNote: (noteId: string) => {
+      const noteIndex = self.notes.map((n: Note) => n.id).indexOf(noteId);
+      if (noteIndex >= 0) {
+        destroy(self.notes[noteIndex]);
+      }
     },
     selectNote: (note: Note) => {
       self.selectedNote = note;
